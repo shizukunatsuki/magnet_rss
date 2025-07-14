@@ -1,12 +1,15 @@
 # wrangler.toml
 
-name = "magnet-rss-worker" # 您可以自定义项目名称
+name = "magnet-rss-worker"
 main = "src/index.js"
 compatibility_date = "2023-12-01"
 
+# ✅ 添加或更新此部分以包含您的自定义域
+routes = [
+    { pattern = "magnet.mc.rabbithouse31.natsuki.cloud/*", custom_domain = true }
+]
+
 # 绑定您的 KV 存储
-# binding = "MAGNET_KV" 是在代码中访问 KV 的变量名 (env.MAGNET_KV)
-# id = "..." 是您的 KV 实例 ID
 [[kv_namespaces]]
 binding = "MAGNET_KV"
 id = "3faff10be5fa410a9fc95033feee93a3"
