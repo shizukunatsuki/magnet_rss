@@ -1,10 +1,9 @@
 # wrangler.toml
 
-name = "magnet-rss-worker" # 建议也修正为 "magnet-rss" 以消除警告
+name = "magnet-rss"
 main = "src/index.js"
-compatibility_date = "2023-12-01"
+compatibility_date = "2025-07-15"
 
-# ✅ 关键修正：移除自定义域名模式中的 /*
 routes = [
     { pattern = "magnet.mc.rabbithouse31.natsuki.cloud", custom_domain = true }
 ]
@@ -14,4 +13,4 @@ binding = "MAGNET_KV"
 id = "3faff10be5fa410a9fc95033feee93a3"
 
 [vars]
-MAGNET_RSS_KEY = "" # 占位符，实际值在Dashboard设置
+MAGNET_RSS_KEY = "" # 占位符
