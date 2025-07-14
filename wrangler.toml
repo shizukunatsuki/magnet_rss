@@ -2,7 +2,7 @@
 
 name = "magnet-rss"
 main = "src/index.js"
-compatibility_date = "2025-07-15"
+compatibility_date = "2025-07-12"
 
 routes = [
     { pattern = "magnet.mc.rabbithouse31.natsuki.cloud", custom_domain = true }
