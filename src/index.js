@@ -63,7 +63,7 @@ export default {
     const providedToken = request.headers.get('Authorization');
 
     // ✅✅✅ 最终修复：从 Secrets Store 中获取 Secret，必须传入 Secret 的名字
-    const secretKey = await env.MAGNET_RSS_KEY.get('MAGNET_RSS_KEY');
+    const secretKey = await env.MAGNET_RSS_KEY.get();
 
     if (!secretKey) {
       return new Response('Server configuration error: Secret not found in store.', { status: 500 });
