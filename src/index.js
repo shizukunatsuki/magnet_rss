@@ -1,5 +1,5 @@
-// src/index.js - Production-ready Magnet RSS Worker
-// Version: 2.0.0
+// src/index.js - Production-ready Magnet RSS Worker (No Rate Limiting)
+// Version: 2.1.0
 // Last Updated: 2025-07-15
 
 export default {
@@ -68,14 +68,6 @@ export default {
 
   async handleUpdateRequest(request, env) {
     const startTime = Date.now();
-    
-    // 速率限制检查 (每个IP每分钟5次)
-    const ip = request.headers.get('CF-Connecting-IP');
-    if (ip && await this.isRateLimited(ip, env)) {
-      return this.jsonResponse(429, {
-        error: 'Too many requests. Please try again later.'
-      });
-    }
     
     // 认证验证
     const authError = await this.verifyAuth(request, env);
@@ -219,33 +211,6 @@ export default {
   sanitizeDisplayName(name) {
     // 移除可能的不安全字符（保留基本字母数字和常见标点）
     return name.replace(/[^\w\s.\-!?()\[\]{}@]/gi, '');
-  },
-
-  async isRateLimited(ip, env) {
-    const RATE_LIMIT_KEY = `rate_limit:${ip}`;
-    const current = await env.MAGNET_KV.get(RATE_LIMIT_KEY, 'json');
-    
-    // 首次请求或已过期
-    if (!current || current.expires < Date.now()) {
-      await env.MAGNET_KV.put(RATE_LIMIT_KEY, JSON.stringify({
-        count: 1,
-        expires: Date.now() + 60000 // 1分钟过期
-      }));
-      return false;
-    }
-    
-    // 超过限制
-    if (current.count >= 5) {
-      return true;
-    }
-    
-    // 增加计数
-    await env.MAGNET_KV.put(RATE_LIMIT_KEY, JSON.stringify({
-      count: current.count + 1,
-      expires: current.expires
-    }));
-    
-    return false;
   },
 
   jsonResponse(status, data) {
