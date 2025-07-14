@@ -1,19 +1,17 @@
 # wrangler.toml
 
-name = "magnet-rss-worker"
+name = "magnet-rss-worker" # 建议也修正为 "magnet-rss" 以消除警告
 main = "src/index.js"
 compatibility_date = "2023-12-01"
 
+# ✅ 关键修正：移除自定义域名模式中的 /*
 routes = [
-    { pattern = "magnet.mc.rabbithouse31.natsuki.cloud/*", custom_domain = true }
+    { pattern = "magnet.mc.rabbithouse31.natsuki.cloud", custom_domain = true }
 ]
 
 [[kv_namespaces]]
 binding = "MAGNET_KV"
 id = "3faff10be5fa410a9fc95033feee93a3"
 
-# ✅ 新增：使用 [vars] 来声明环境变量
-# MAGNET_RSS_KEY 是在代码中访问的变量名 (env.MAGNET_RSS_KEY)
-# 实际值需要在 Cloudflare Dashboard 中配置
 [vars]
-MAGNET_RSS_KEY = "" # 这里的值只是一个占位符，实际值在Dashboard设置
+MAGNET_RSS_KEY = "" # 占位符，实际值在Dashboard设置
