@@ -1,22 +1,19 @@
-# wrangler.toml (Corrected Version)
+# wrangler.toml
 
-# FIX 3: Match the name expected by the Cloudflare CI/CD system
-name = "magnet-rss"
-
+name = "magnet-rss-worker"
 main = "src/index.js"
 compatibility_date = "2023-12-01"
 
-# FIX 1: Correct route syntax for custom domains
 routes = [
-    { pattern = "magnet.mc.rabbithouse31.natsuki.cloud", custom_domain = true }
+    { pattern = "magnet.mc.rabbithouse31.natsuki.cloud/*", custom_domain = true }
 ]
 
 [[kv_namespaces]]
 binding = "MAGNET_KV"
 id = "3faff10be5fa410a9fc95033feee93a3"
 
-# This syntax is correct and will work after we update the build environment
-[[secrets_store_secrets]]
-binding = "MAGNET_RSS_KEY"
-store_id = "b9e96ac8fe6c47be9a494559a1d9ae96"
-secret_name = "magnet_rss_key"
+# ✅ 新增：使用 [vars] 来声明环境变量
+# MAGNET_RSS_KEY 是在代码中访问的变量名 (env.MAGNET_RSS_KEY)
+# 实际值需要在 Cloudflare Dashboard 中配置
+[vars]
+MAGNET_RSS_KEY = "" # 这里的值只是一个占位符，实际值在Dashboard设置

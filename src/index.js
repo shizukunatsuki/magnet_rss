@@ -4,7 +4,7 @@ export default {
   /**
    * Worker 的主入口函数
    * @param {Request} request - 收到的请求对象
-   * @param {object} env - 环境变量和绑定 (KV, Secrets Store)
+   * @param {object} env - 环境变量和绑定 (KV, Secrets)
    * @param {object} ctx - 执行上下文
    * @returns {Promise<Response>}
    */
@@ -61,12 +61,13 @@ export default {
    */
   async handleUpdateRequest(request, env) {
     const providedToken = request.headers.get('Authorization');
+    
+    // ✅ 关键改动：直接从 env 对象获取环境变量字符串
+    const secretKey = env.MAGNET_RSS_KEY; 
 
-    // ✅✅✅ 最终修复：从 Secrets Store 中获取 Secret，必须传入 Secret 的名字
-    const secretKey = await env.MAGNET_RSS_KEY.get();
-
-    if (!secretKey) {
-      return new Response('Server configuration error: Secret not found in store.', { status: 500 });
+    // 如果环境变量未设置，则返回 500 错误
+    if (!secretKey || typeof secretKey !== 'string') {
+      return new Response('Server configuration error: MAGNET_RSS_KEY environment variable not set or invalid.', { status: 500 });
     }
 
     const expectedToken = `Bearer ${secretKey}`;
