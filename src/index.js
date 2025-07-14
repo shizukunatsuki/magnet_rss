@@ -158,9 +158,9 @@ export default {
         case '<': return '<';
         case '>': return '>';
         case '&': return '&';
-        case '\'': return '''; // 转义单引号
-        case '"': return '"';   // 转义双引号
-        default: return c; // 理论上不会走到这里，但作为安全措施
+        case '\'': return '''; // ✅ 再次确认：这里是正确的字符串字面量 '''
+        case '"': return '"';   
+        default: return c; 
       }
     });
   }
