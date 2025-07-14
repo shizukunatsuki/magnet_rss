@@ -32,6 +32,9 @@ export default {
       return new Response('Magnet link not set yet.', { status: 404 });
     }
 
+    // ✅ 关键改动：对 magnetLink 进行 XML 转义，用于 <guid> 标签
+    const escapedMagnetLink = this.escapeXml(magnetLink);
+
     const rssFeed = `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
 <channel>
@@ -41,7 +44,7 @@ export default {
   <item>
     <title>Latest Item</title>
     <link><![CDATA[${magnetLink}]]></link>
-    <guid isPermaLink="false">${magnetLink}</guid>
+    <guid isPermaLink="false">${escapedMagnetLink}</guid> <!-- 使用转义后的链接 -->
     <pubDate>${new Date().toUTCString()}</pubDate>
     <description><![CDATA[Magnet Link: ${magnetLink}]]></description>
   </item>
@@ -62,17 +65,14 @@ export default {
   async handleUpdateRequest(request, env) {
     const providedToken = request.headers.get('Authorization');
     
-    // ✅ 关键改动：直接从 env 对象获取环境变量字符串
     const secretKey = env.MAGNET_RSS_KEY; 
 
-    // 如果环境变量未设置，则返回 500 错误
     if (!secretKey || typeof secretKey !== 'string') {
       return new Response('Server configuration error: MAGNET_RSS_KEY environment variable not set or invalid.', { status: 500 });
     }
 
     const expectedToken = `Bearer ${secretKey}`;
 
-    // 使用恒定时间比较函数进行安全认证
     if (!providedToken || !this.timingSafeEqual(providedToken, expectedToken)) {
       return new Response('Unauthorized', { status: 401 });
     }
@@ -117,4 +117,21 @@ export default {
     }
     return diff === 0;
   },
+
+  /**
+   * ✅ 新增：XML 特殊字符转义函数
+   * @param {string} unsafe - 包含可能未转义 XML 字符的字符串
+   * @returns {string} - 转义后的字符串
+   */
+  escapeXml(unsafe) {
+    return unsafe.replace(/[<>&'"]/g, function (c) {
+      switch (c) {
+        case '<': return '<';
+        case '>': return '>';
+        case '&': return '&';
+        case "'": return '''; // For attributes, though not strictly needed for content
+        case '"': return '"'; // For attributes, though not strictly needed for content
+      }
+    });
+  }
 };
