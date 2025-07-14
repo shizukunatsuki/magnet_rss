@@ -1,15 +1,18 @@
 # wrangler.toml
 
 name = "magnet-rss-worker"
-main = "src/index.js"
+main = "src/index.js" # 确保路径正确，如果是 ./src/index.js 也可以
 compatibility_date = "2023-12-01"
 
-# ✅ 添加或更新此部分以包含您的自定义域
 routes = [
     { pattern = "magnet.mc.rabbithouse31.natsuki.cloud/*", custom_domain = true }
 ]
 
-# 绑定您的 KV 存储
 [[kv_namespaces]]
 binding = "MAGNET_KV"
 id = "3faff10be5fa410a9fc95033feee93a3"
+
+[[secrets_store_secrets]]
+binding = "MAGNET_RSS_KEY"
+store_id = "b9e96ac8fe6c47be9a494559a1d9ae96"
+secret_name = "magnet_rss_key"
