@@ -1,17 +1,21 @@
-# wrangler.toml
+# wrangler.toml (Corrected Version)
 
-name = "magnet-rss-worker"
-main = "src/index.js" # 确保路径正确，如果是 ./src/index.js 也可以
+# FIX 3: Match the name expected by the Cloudflare CI/CD system
+name = "magnet-rss"
+
+main = "src/index.js"
 compatibility_date = "2023-12-01"
 
+# FIX 1: Correct route syntax for custom domains
 routes = [
-    { pattern = "magnet.mc.rabbithouse31.natsuki.cloud/*", custom_domain = true }
+    { pattern = "magnet.mc.rabbithouse31.natsuki.cloud", custom_domain = true }
 ]
 
 [[kv_namespaces]]
 binding = "MAGNET_KV"
 id = "3faff10be5fa410a9fc95033feee93a3"
 
+# This syntax is correct and will work after we update the build environment
 [[secrets_store_secrets]]
 binding = "MAGNET_RSS_KEY"
 store_id = "b9e96ac8fe6c47be9a494559a1d9ae96"
