@@ -1,0 +1,16 @@
+// package.json
+
+{
+  "name": "magnet-rss-worker",
+  "version": "1.0.0",
+  "description": "A Cloudflare Worker to serve a magnet link via RSS and update it via a secure API.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "npx wrangler deploy",
+    "dev": "npx wrangler dev"
+  },
+  "devDependencies": {
+    "wrangler": "^3.22.0"
+  }
+}

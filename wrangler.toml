@@ -1,0 +1,12 @@
+# wrangler.toml
+
+name = "magnet-rss-worker" # 您可以自定义项目名称
+main = "src/index.js"
+compatibility_date = "2023-12-01"
+
+# 绑定您的 KV 存储
+# binding = "MAGNET_KV" 是在代码中访问 KV 的变量名 (env.MAGNET_KV)
+# id = "..." 是您的 KV 实例 ID
+[[kv_namespaces]]
+binding = "MAGNET_KV"
+id = "3faff10be5fa410a9fc95033feee93a3"
