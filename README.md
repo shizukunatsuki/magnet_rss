@@ -1,8 +1,8 @@
 ## 喵
-一个cloudflare worker，原计划用于自动备份文件，在server端自动定时打包做种并更新magnet链接到worker，client监听RSS订阅自动下载最新版本备份；
-因为原需求变动，后续开发停止，但这worker已经测试过能用了）
-仍然是LLM生成的项目。
-下面是LLM生成的使用指南w
+一个cloudflare worker，原计划用于自动备份文件，在server端自动定时打包做种并更新magnet链接到worker，client监听RSS订阅自动下载最新版本备份；  
+因为原需求变动，后续开发停止，但这worker已经测试过能用了）  
+仍然是LLM生成的项目。  
+下面是LLM生成的使用指南w  
 ---
 
 ## 📡 RSS 订阅接口
